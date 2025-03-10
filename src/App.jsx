@@ -15,7 +15,7 @@ function App() {
   };
 
   const getShareText = () => {
-    return encodeURIComponent(`🎮 I completed the ZKsync Memory Challenge in ${moves} moves! Can you beat my score?\n\nPlay now at: https://game.zksync.io`);
+    return encodeURIComponent(`🎮 I completed the ZKsync Memory Challenge in ${moves} moves! Can you beat my score?\n\nPlay now at: https://zksync-chains.netlify.app`);
   };
 
   return (
@@ -99,7 +99,7 @@ function App() {
           <p className="text-sm sm:text-base">
             Built with ❤️ by ZKsync devs •{" "}
             <a 
-              href="https://github.com/matter-labs/elastic-memory-game"
+              href="https://github.com/uF4No/elastic-memory-game"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#BFF351] hover:text-[#13D5D3]"

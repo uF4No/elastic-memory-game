@@ -28,7 +28,7 @@ This game is built using React and Vite, featuring:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/elastic-memory-game.git
+git clone https://github.com/uF4No/elastic-memory-game.git
 cd elastic-memory-game
 ```
 
