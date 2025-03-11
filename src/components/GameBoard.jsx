@@ -2,16 +2,40 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Tile from './Tile';
 
-// Using local chain logo images
-const TILE_IMAGES = [
-  '/img/sophon.png',
-  '/img/lens-chain.png',
-  '/img/abstract.png',
-  '/img/treasure.png',
-  '/img/space-and-time.png',
-  '/img/cronos.png',
-  '/img/era.png',
-  '/img/xsolla.png',
+// Using local chain logo images with their corresponding website URLs
+const TILE_DATA = [
+  {
+    image: '/img/sophon.png',
+    url: 'https://sophon.xyz'
+  },
+  {
+    image: '/img/lens-chain.png',
+    url: 'https://lens.xyz'
+  },
+  {
+    image: '/img/abstract.png',
+    url: 'https://abs.xyz'
+  },
+  {
+    image: '/img/treasure.png',
+    url: 'https://treasure.lol'
+  },
+  {
+    image: '/img/space-and-time.png',
+    url: 'https://spaceandtime.io'
+  },
+  {
+    image: '/img/cronos.png',
+    url: 'https://cronos.org'
+  },
+  {
+    image: '/img/era.png',
+    url: 'https://docs.zksync.io'
+  },
+  {
+    image: '/img/xsolla.png',
+    url: 'https://xsolla.com'
+  }
 ];
 
 const GameBoard = ({ onGameComplete, onMovesUpdate }) => {
@@ -24,10 +48,11 @@ const GameBoard = ({ onGameComplete, onMovesUpdate }) => {
   }, []);
 
   const initializeBoard = () => {
-    const shuffledTiles = [...TILE_IMAGES, ...TILE_IMAGES]
-      .map((image, index) => ({
+    const shuffledTiles = [...TILE_DATA, ...TILE_DATA]
+      .map((data, index) => ({
         id: index,
-        image,
+        image: data.image,
+        url: data.url,
         isFlipped: false,
         isMatched: false,
       }))
@@ -58,7 +83,7 @@ const GameBoard = ({ onGameComplete, onMovesUpdate }) => {
         setFlippedTiles([]);
         onMovesUpdate((prev) => prev + 1);
 
-        if (matchedPairs.length + 1 === TILE_IMAGES.length) {
+        if (matchedPairs.length + 1 === TILE_DATA.length) {
           onGameComplete();
         }
       } else {
@@ -85,6 +110,7 @@ const GameBoard = ({ onGameComplete, onMovesUpdate }) => {
             key={tile.id}
             id={tile.id}
             image={tile.image}
+            url={tile.url}
             isFlipped={tile.isFlipped || matchedPairs.includes(tile.image)}
             isMatched={matchedPairs.includes(tile.image)}
             onClick={handleTileClick}

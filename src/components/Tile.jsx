@@ -1,10 +1,42 @@
 import PropTypes from 'prop-types';
 
-const Tile = ({ id, image, isFlipped, isMatched, onClick }) => {
+const Tile = ({ id, image, url, isFlipped, isMatched, onClick }) => {
   const handleClick = () => {
     if (!isFlipped && !isMatched) {
       onClick(id);
     }
+  };
+
+  const renderContent = () => {
+    if (isMatched) {
+      return (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full h-full"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="w-full h-full p-2 sm:p-4 flex items-center justify-center group">
+            <img
+              src={image}
+              alt="chain logo"
+              className="w-full h-full object-contain transition-transform duration-200 group-hover:scale-110"
+            />
+          </div>
+        </a>
+      );
+    }
+
+    return (
+      <div className="w-full h-full p-2 sm:p-4 flex items-center justify-center">
+        <img
+          src={image}
+          alt="chain logo"
+          className="w-full h-full object-contain"
+        />
+      </div>
+    );
   };
 
   return (
@@ -31,19 +63,12 @@ const Tile = ({ id, image, isFlipped, isMatched, onClick }) => {
         {/* Back face */}
         <div
           className={`absolute w-full h-full backface-hidden rounded-lg 
-                     border-2 border-indigo-500 shadow-lg overflow-hidden 
+                     border-2 ${isMatched ? 'border-green-500' : 'border-indigo-500'} shadow-lg overflow-hidden 
                      transform rotate-y-180 transition-opacity duration-500
-                     bg-white ${
-                       isFlipped ? 'opacity-100' : 'opacity-0'
-                     }`}
+                     bg-white ${isFlipped ? 'opacity-100' : 'opacity-0'} 
+                     ${isMatched ? 'hover:shadow-xl' : ''}`}
         >
-          <div className="w-full h-full p-2 sm:p-4 flex items-center justify-center">
-            <img
-              src={image}
-              alt="chain logo"
-              className="w-full h-full object-contain"
-            />
-          </div>
+          {renderContent()}
         </div>
       </div>
     </div>
@@ -53,6 +78,7 @@ const Tile = ({ id, image, isFlipped, isMatched, onClick }) => {
 Tile.propTypes = {
   id: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
   isFlipped: PropTypes.bool.isRequired,
   isMatched: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
