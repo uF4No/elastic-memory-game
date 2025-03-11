@@ -12,6 +12,7 @@ function App() {
   const handleRestart = () => {
     setMoves(0);
     setIsComplete(false);
+    window.gameBoard?.initializeBoard();
   };
 
   const getShareText = () => {

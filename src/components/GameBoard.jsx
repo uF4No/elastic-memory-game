@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Tile from './Tile';
 
@@ -43,11 +43,7 @@ const GameBoard = ({ onGameComplete, onMovesUpdate }) => {
   const [flippedTiles, setFlippedTiles] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState([]);
 
-  useEffect(() => {
-    initializeBoard();
-  }, []);
-
-  const initializeBoard = () => {
+  const initializeBoard = useCallback(() => {
     const shuffledTiles = [...TILE_DATA, ...TILE_DATA]
       .map((data, index) => ({
         id: index,
@@ -60,7 +56,11 @@ const GameBoard = ({ onGameComplete, onMovesUpdate }) => {
     setTiles(shuffledTiles);
     setFlippedTiles([]);
     setMatchedPairs([]);
-  };
+  }, []);
+
+  useEffect(() => {
+    initializeBoard();
+  }, [initializeBoard]);
 
   const handleTileClick = (id) => {
     if (flippedTiles.length === 2) return;
@@ -101,6 +101,18 @@ const GameBoard = ({ onGameComplete, onMovesUpdate }) => {
       }
     }
   };
+
+  // Expose initializeBoard to parent through ref
+  useEffect(() => {
+    if (window.gameBoard) {
+      window.gameBoard.initializeBoard = initializeBoard;
+    } else {
+      window.gameBoard = { initializeBoard };
+    }
+    return () => {
+      delete window.gameBoard;
+    };
+  }, [initializeBoard]);
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 p-2 sm:p-6 bg-white rounded-xl shadow-inner max-w-[600px] mx-auto">
